@@ -1,8 +1,20 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
-from src.item import calculate_total_price
+import pytest
 
-def test_calculate_total_price():
-    assert calculate_total_price(10000, 20) == 200000
+from src.item import Item
 
-def test_apply_discount():
-    assert apply_discount(10000, 0.8) == 8000.0
+
+@pytest.fixture
+def item() -> Item:
+    return Item(
+        name='Тест',
+        price=10000.0,
+        quantity=3,
+    )
+
+
+def test_calculate_total_price(item):
+    assert item.calculate_total_price() == 30000.0
+
+def test_apply_discount(item):
+    assert item.apply_discount() == 10000.0
