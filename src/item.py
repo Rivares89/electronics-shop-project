@@ -20,18 +20,18 @@ class Item:
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
-        #
-        # @property
-        # def get_name(self):
-        #     '''геттер для name'''
-        #     return self.__name
-        #
-        # @get_name.setter
-        # def setter_name(self, __name):
-        #     if len(__name) <= 10:
-        #         return __name
-        #     else:
-        #         return __name[:10]
+
+        @property
+        def name(self):
+            '''геттер для name'''
+            return self.__name
+
+        @name.setter
+        def name(self, name):
+            if len(name) <= 10:
+                return name
+            else:
+                return name[:10]
 
     def calculate_total_price(self) -> float:
         """
@@ -49,14 +49,17 @@ class Item:
         return self.price
 
     # csv_file = 'src/item.csv'
-    # @classmethod
-    # def instantiate_from_csv(cls, csv_file):
-    #     items = []
-    #     with open(csv_file, mode='r') as file:
-    #         csv_reader = csv.reader(file)
-    #         next(csv_reader)
-    #         for row in csv_reader:
-    #             name, price, quantity = row
-    #             item = cls(name, float(price), int(quantity))
-    #             items.append(item)
-    #     return items
+    @classmethod
+    def instantiate_from_csv(cls, csv_file):
+        items = []
+        with open(csv_file, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                name, price, quantity = row
+                item = cls(name, float(price), int(quantity))
+                items.append(item)
+        return items
+
+    @staticmethod
+    def string_to_number():
+        self.price = int(self.price)
