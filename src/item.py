@@ -1,11 +1,13 @@
 import csv
+import inspect
+import os.path
 
 
 class Item:
     """
     Класс для представления товара в магазине.
     """
-    pay_rate = 1.0
+    pay_rate = 0.5
     all = []
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
@@ -19,19 +21,16 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        Item.all.append(self)
+        # Item.all.append(self)
 
-        @property
-        def name(self):
-            '''геттер для name'''
-            return self.__name
+    @property
+    def name(self):
+        '''геттер для name'''
+        return self.__name
 
-        @name.setter
-        def name(self, name):
-            if len(name) <= 10:
-                return name
-            else:
-                return name[:10]
+    @name.setter
+    def name(self, new_name):
+        self.__name = new_name[:10]
 
     def calculate_total_price(self) -> float:
         """
@@ -46,20 +45,23 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
-        return self.price
 
     # csv_file = 'src/item.csv'
     @classmethod
     def instantiate_from_csv(cls, csv_file):
-        items = []
-        with open(csv_file, newline='') as csvfile:
+        cls.all = []
+        class_file = inspect.getfile(cls)
+        path_to_dir = os.path.dirname(class_file)
+        temp_file = path_to_dir + csv_file
+        with open(temp_file) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                name, price, quantity = row
-                item = cls(name, float(price), int(quantity))
-                items.append(item)
-        return items
+                item = (cls(row["name"], row["price"], row["quantity"]))
+                cls.all.append(item)
+        # return cls.all
 
     @staticmethod
-    def string_to_number():
-        self.price = int(self.price)
+    def string_to_number(str_number):
+        if str_number.isdigit():
+            return int(str_number)
+        return float(str_number)// 1
