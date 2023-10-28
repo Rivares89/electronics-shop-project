@@ -75,4 +75,6 @@ class Item:
     def string_to_number(str_number):
         if str_number.isdigit():
             return int(str_number)
-        return float(str_number)// 1
+        return float(str_number)// 1#
+
+
