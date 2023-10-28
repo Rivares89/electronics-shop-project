@@ -29,8 +29,8 @@ class MixinKeyboard():
 class Keyboard(Item, MixinKeyboard):
     '''Дочерний класс клавиатура'''
     
-    def __init__(self, name, quantity, price):
-        super().__init__(name, quantity, price)
+    def __init__(self, name, price, quantity):
+        super().__init__(name, price, quantity)
         MixinKeyboard.__init__(self)
 
 
